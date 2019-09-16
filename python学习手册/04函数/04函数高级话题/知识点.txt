@@ -1,0 +1,50 @@
+1.函数设计概念
+    耦合性：输入用参数，输出用return,非必要不使用golbal,非必要不修改可变参数
+    聚合性：函数应该有一个统一的，单一的目标
+    大小：应该相对较小
+    耦合：避免直接改变另一个模块文件中的变量
+2.递归函数
+    1>用递归求和
+        def s(L):
+            if not L: return 0
+            else: return L[0] + s(L[1:])
+    2.编码替代方案：用三元if/else表达式
+        def s(L):
+            return L[0] + s(L[1:]) if L else 0
+    3.循环VS递归
+        同：均可实现循环处理
+        优：递归可处理深层随机嵌套
+        劣：递归更复杂难理解，在内存空间和执行时间方面效率低，同等实现推荐用循环
+    4.处理任意嵌套结构
+        from collections import Iterable
+        def sum_seq(*seq):
+            "纯数字的数字，列表，元祖，集合，字符串求和"
+            sum = 0
+            for s in seq:
+                "单个字符仍是可迭代对象，在这里用len(s)>1预防进入死循环"
+                sum = sum + sum_seq(*s) if isinstance(s, Iterable) and len(s)>1 else sum + int(s)
+            return sum
+3.函数对象：属性和注解
+    函数内省：__name__,__code__等
+    函数属性：用户自定义属性
+    函数注解：使用符号":"注解参数，"->"注解返回类型，用__annotations__查看注解
+        def f(a: 'spam'=4, b: (1,10)=5) -> int:
+            print(a,b)
+        print(f.__annotations__)
+4.匿名函数
+    lambda表达式：lambda arg1,arg2...argn: expression using arguments
+    lambda是一个表达式而不是一个语句，返回一个函数对象，单独使用无意义
+    lambda主体是一个单一的表达式而不是一个代码块，如果def主体代码块中的return语句中的代码
+    为什么使用lambda:
+        1>函数速写，通常用来编写跳转表：L = [lambda x:x**2, lambda x: x**3, lambda x:x**4]; print(L[0](3))
+        2>用于tkinter中的回调函数
+        3>在序列中映射函数:map
+        4>函数式编程工具：filter, reduce
+5.陷阱
+    1>本地变量的是静态检测的
+        函数先编译后运行，再编译时如果有变量赋值，则函数中所有对该变量的引用都是基于该赋值的，所以再运行时如果
+        语句的顺序是先引用再赋值就会发生错误
+        编译时def f():x=1;print(x)和def f():print(x);x=1是一样的
+        运行时后者会出错，就算有全局变量x=1也是一样（练习4）
+    2>默认可变参数
+    3>函数没有return或yield时默认返回None

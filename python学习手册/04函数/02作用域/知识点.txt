@@ -1,0 +1,42 @@
+变量名解析：LEGB原则 -> 定义和查找变量的位置
+变量名查找顺序：本地-函数内(nonlocal)-全局(global)-内置
+built-in(python)
+    global(module)
+        Enclosing function locals(嵌套函数变量从深层往浅层逐层查找)
+            local(function)
+
+内嵌的模块是全局作用域,相当于当前模块的全局变量
+全局作用域的作用仅限于单个文件
+每次对函数的调用都创建了一个新的本地作用域
+赋值的变量名除非声明为全局变量(global)或者非本地变量(nonlocal),否则都是本地变量
+所有其它的变量名都可以归纳为本地，全局或者内置
+
+交换模式代码是输入到__main__内置模块中运行的，该模块随着输入反馈，遵循作用域规则，对象对于会话来说是全局的
+在函数中实现全局变量var加一的效果:
+    # 方式1,简单直观
+    global var
+    var += 1
+    # 方式2
+    import thismod
+    thismod.var += 1
+    # 方式3
+    import sys
+    glob = sys.modules['thismod']
+    glob.var += 1
+
+nonlocal:改进嵌套函数作用域引用,运行在内存中保持可变状态的多个副本,并解决了在类无法保证的情况下的简单的状态保持
+
+使用类的状态
+    调用类的函数修改实例状态
+    调用类的__call__方法: class tester: pass c = class(); c()
+使用函数属性的状态
+    def tester(start):
+        def nested(lable):
+            print(label, nested.state)
+            nested.state += 1
+        nested.state = start
+        return nested
+    F = tester(0)
+    F('spam')   #spam 0
+    F('ham')    #ham 1
+    F.state     #2

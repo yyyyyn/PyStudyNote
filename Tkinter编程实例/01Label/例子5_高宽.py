@@ -1,0 +1,20 @@
+'''
+width：宽度
+height：高度
+'''
+from tkinter import *
+root=Tk()
+root.geometry('600x400')
+#root['width'],root['height']=1200,40
+Label(root,
+      text='red',
+      bg='red',
+      width=60,height=5).pack()
+Label(root,
+      text='blue',
+      bg='blue').pack()
+Label(root,
+      text='yellow',
+      bg='yellow').pack()
+print(root['width'])
+root.mainloop()

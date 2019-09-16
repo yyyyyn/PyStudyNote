@@ -1,0 +1,21 @@
+if <test1>:
+    <statements1>
+elif <test2>:
+    <statements2>
+else:
+    <statements3>
+
+三元表达式：
+a=y if x else z
+效果等同：
+if x:
+    a=y
+else:
+    a=z
+
+真值测试,注意布尔值：
+x=A or B or C or None   #x会是第一个非空的数
+x=A or default  #A为空则返回default
+a=[x,y][bool[x]]
+a = y if x else z   #类似与a=((x and y) or z),但y要为True
+当用类定义新的对象类型的时候,可以用__bool__或者__len__方法指定其布尔特性(python2中是__nonzero__)

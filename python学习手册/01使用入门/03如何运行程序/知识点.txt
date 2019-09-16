@@ -1,0 +1,64 @@
+1、交互提示模式下编写代码
+    操作:安装Python,将python执行文件路径添加到系统PATH中,shell中(windows的dos)执行: python
+    作用:体验,实验及测试
+    特点:不会保存代码,print不是必须的,无需缩进,只能输入python命令,左边一律是">>>"
+        留意提示符的变换和复合语句,复合语句第二行左边是"..."或者其它,用空行结束
+        一般一次运行一条语句,
+        若是类似if等结构的多行语句或者函数,第二行起"..."和语句之间必须有tab或者4个空格,用空行结束复合语句
+
+2、系统命令行和文件
+    写入了Python代码的简单.py文本文件是python模块
+    vim script1.py
+        import sys
+        print(sys.platform)
+        print('spac'*8)
+    python scrpit1.py   #若在shell中运行python则常用的shell语法都适用,如:python script1.py > a.txt
+    在windows中编写文本要注意其默认隐藏扩展名
+    在系统提示模式下使用文件扩展名,在导入时不使用扩展名(.py)
+    文件中的打印要使用print(区别于交互模式)
+    UNIX可执行脚本(UNIX文件后缀实际意义不大)：
+        vim brian
+            #!/usr/bin/env python
+            print('hello')
+        chmod a+x brian
+        ./brian
+3.windows中双击.py文件图标运行代码
+    在代码末尾输入Input()以达到驻留效果
+
+4.模块导入(from/import)和重载(reload)
+    导入模块就是载入另一个文件并读取其内容,同时模块通过该(属性)方式实现被外部世界使用
+    一个程序有多个文件多个模块，其中一个被设计成主文件
+    导入文件是一种运行文件的方式
+    多次导入同一个模块只会在第一次执行模块,模块内容被写入内存,之后在导入无效,导入是开销很大的操作
+    若需要重新导入模块可通过reload实现,reload无法传递,只能重载指定模块,不会重载模块代码中导入的模块
+    vim test01.py
+        import script1
+        import script1
+        from imp import reload
+        reload(script1)
+    python test01.py
+
+    模块的显要特性:属性
+    vim myfile.py
+        title='the meaning of life'
+    python
+        import myfile
+        print(myfile.title)
+        from title import title
+        print(title)
+    相比import,from增加了对载入组件的变量名的额外赋值,复制模块属性到主程序(重名会覆盖),同时模块也会被执行写入内存
+    一个模块是一个独立的命名空间,不能看到其它模块的变量,除非显式地导入
+
+3、使用exec在交互模式下运行模块文件：exec(open('a.txt').read())
+
+4、IDLE及PythonWin,Eclipse,Pycharm等开发工具
+
+5.嵌入式调用
+    vim test.h
+        #include<Python.h>
+        ...
+        Py_Initialize();
+        PyRun_SimpleString("x = 'brave")
+
+6.冻结二进制的可执行性:集成python字节码及解释器为一个单个可执行程序包
+

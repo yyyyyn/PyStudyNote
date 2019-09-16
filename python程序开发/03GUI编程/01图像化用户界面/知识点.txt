@@ -1,0 +1,15 @@
+了解：
+1.采用tkinter模块编写的GUI可以运行在所有主流os上，是Python中的图形化标准
+2.tkinter是Python唯一自带的GUI工具包，其它都是第三方扩展包
+3.其它GUI工具包：wxPython,PyQt,PyGTK,Jython,IronPython,PythonCard,Dabo,RIAs,Flex,Sliverlight,JavaFX,Pyjamas
+
+tkinter概览：
+tkinter语言符号学：可访问性，可移植性，可用性
+tkinter文档：http://www.pythonware.com/library
+tkinter扩展包：Pmw,Tix,ttk,PIL,IDLE...
+tkinter结构：是一个集成系统，有其独特的程序结构。
+①实现结构：tkinter=Tk库+交互软件层
+②编码结构：Python/tkinter程序是时间驱动的：建立界面->注册事件处理器->事件发生
+    大致方法：函数响应，自定义继承扩展tkinter类，用树形链接组件
+
+循序渐进的GUI学习曲线：

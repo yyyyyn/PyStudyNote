@@ -1,0 +1,13 @@
+文件：由操作系统管理的有名字的存储区域
+
+检查是否存在：import os;os.path.exits(filepath)
+打开文件：f=open(filepath,'w',encoding='utf-8)   #encoding是可选项
+写入/读取文件：f.write('xxx')/f.read()           #写入的内容是字符串
+把数据从内存写入硬盘：f.flush()    #不是必须的步骤，会自动写入
+关闭文件：f.close()
+
+可以用pickle把任意对象存入文件中，不需要转化为字符串
+注意：写入和读取要用wb,rb模式
+
+可以用struct模块打包/构造二进制数据，注意其中的打包模式是需要根据具体的被打爆的数据定制的
+比如data=struct.pack('i4sh',7,b'asdf',8)中的'i4sh'就是根据后面的(7,b'asdf',8)来定制的，还有字符串需要转为二进制

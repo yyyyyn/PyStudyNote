@@ -1,0 +1,62 @@
+查询属性对象：
+M.name
+m.__dict__['name']
+sys.modules['M'].name
+getattr(M,'name')
+
+1.在模块中隐藏数据
+    1>最小化from*语句的破坏:_X 和 __all__
+        from*语句会先寻找__all__列表并拷贝里面的所有变量,没有的话就会拷贝所有不是单下划线开头的所有变量
+        下划线不是私有的声明，更多是一种使用习惯，可以通过如下方式实现调用，但无意义:
+            a> import mod; mod._x
+            b> 把_x直接加到__all__中，其它模块用from*拷贝后直接可用
+            c> 直接用from mod import _x即可
+        可在__init__.py中用__all__限定允许被调用的模块
+2.启用以后的语言特性: from __future__ import featurename
+3.混合用法模式: __name__ 和 __main__
+    可用于代码测试，unittest和doctest标准库模块提供更高级的测试工具
+        if __name__ == '__main__':
+            pass
+    可使用带__name__的命令行参数进行简单工具开发,使得工具既能单独使用也能导入到其它环境
+        vim test.py
+            def f(a=1,b=2):
+                ...
+            if __name__ == '__main__':
+                def selftest():
+                    pass
+                import sys
+                if len(sys.argv) ==1:
+                    selftest()
+                else:
+                    f(sys.argv[1], sys.argv[2])
+        python test.py
+        python test.py 1 2
+4.修改模块搜索路径 - 修改sys.path
+    sys.path在程序启动时就会进行初始化，之后可随意修改，程序结束后不会保留，对PYTHONPATH和.pth等无影响
+5.import语句和from语句的as扩展
+    import mod as m
+    from dir1.dir2 import mod as m
+6.模块是对象：元程序
+    编写程序来管理其它程序的程序是元程序,如一个查看所有模块的属性的模块(mydir.py)
+7.用名称字符串导入模块
+    需求常见：动态地载入一个模块
+    方法一：exec("import string")   #导入模块string
+        缺点：每次运行必须编译import语句，用__import__函数会更快
+    方法二：string = __import__("string")
+        __import__会返回模块对象，将其赋值给一个变量名以保持
+8.过渡性模块重载
+    reload只能重载指定模块，不能重载模块中导入的模块，若需要全部重载只能一个个执行重载，工作量大，可自定义重载来实现(reloadall.py)
+9.模块设计理念
+    1>总是在Python模块内编写代码
+    2>模块耦合要降低到最低：全局变量和其它模块无关
+    3>最大化模块的粘和性：统一目标,不依赖外部
+    4>模块应该少去修改其它模块的变量
+10.模块陷阱
+    1>顶层代码的语句次序的重要性
+        导入时，不在函数内的代码会立即执行，无法引用后面的变量
+        函数中的代码在函数被调用后才会执行
+    2>from赋值变量名，而不是连接
+    3>from*会让变量语义模糊
+    4>reload不会影响之前的from导入
+    5>递归形式的from导入无法工作
+

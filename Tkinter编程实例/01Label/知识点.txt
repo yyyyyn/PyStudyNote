@@ -1,0 +1,23 @@
+调用tkinter：from tkinter import *
+创建窗口：root=Tk()
+创建各种组件，与窗口绑定：lab=Lable(root,text='hello')
+通过布局管理器pack为窗口组件打包：lab.pack()
+运行窗口：root.mainloop()
+
+Label类对象：
+1.定义：def __init__(self, master=None, **kw):
+master:指Label所属的窗口
+**kw:包括Label的各种属性
+
+2.Label属性
+text：指定显示的文本
+bitmap/image：指定显示的位图
+fg:前景色
+bg:背景色
+width: 宽度
+height: 高度
+compound: 指定文本(text)与图像(bitmap/image)是如何在 Label 上显示，缺省为 None，
+    当指定 image/bitmap 时，文本(text)将被覆盖，只显示图像了.
+wraplength： 指定多少单位后开始换行
+justify: 指定多行的对齐方式
+ahchor： 指定文本(text)或图像(bitmap/image)在 Label 中的显示位置

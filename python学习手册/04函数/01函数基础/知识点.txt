@@ -1,0 +1,18 @@
+函数是Python为了代码最大程度的重用和最小化代码冗余而提供的最基本的程序结构，是流程的分解，是对象
+
+函数相关表达式：
+调用    myfunc('hello')
+def     def addr(a, b=1, *c): pass              #def是可执行代码，其创建函数对象并引用给函数变量名
+lambda  f = [lamdba x: x*2, lambda x: x**2]     #表达式，创建一个对象结果返回，可用于创建函数对象
+return  return 'abc'                  #结束函数流程并返回对象,若函数无return则返回None
+yield   def f(): for r in range(5): yield r     #函数构造器,返回结果并记住函数离开的位置以便稍后继续运行
+global  x = 'old'; def f(): global x; x = 'new' #声明一个模块级变量并被赋值,再函数中就如同在函数外操作该变量一样
+nonlocal    #python3中新特性，声明要赋值的一个封闭的函数变量，该函数状态保留，不使用global，即内部嵌套函数引用外部函数变量
+
+函数通过赋值传递：def f(): pass ; f1 = f; f1()
+参数，返回值级变量并不是声明，函数中无类型约束
+def语句是实时执行的，无类似独立编译的步骤，是一个语句，可以出现在任意地方
+python中的多态：
+    函数随着所给参数类型变化同样的操作行为相应变化,比如:def f(x): print(x*2); f(2); f('2')
+
+

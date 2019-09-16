@@ -1,0 +1,38 @@
+字典：
+1>通过键而不是偏移量来读取
+2>任意对象的无序集合
+3>可变长，异构，任意嵌套
+4>可变映射类型
+
+常见字典常量及操作
+d = {}                          #空字典
+d = {'spam':2, 'egg':3}         #两项目字典
+d = {'food':{'ham':1, 'egg':2}} #嵌套
+d = {x:x*2 for x in range(20)}  #字典解析
+d = dict.fromkeys(['a','b'])    #构造仅有键,值全位None的字典
+d = dict(zip(keylist,valuelist))#通过zip构造键值完整的字典
+d = dict(name='bob', age=42)    #直接构造
+d[key]=42                       #有改无增键值对
+d['egg'], d['food']['ham'], 'egg' in d      #以键进行索引
+d.keys(), d.values(), d.items() #获取所有键,所有值,所有(键,值)
+d.get(key,default)              #通过key找value，若无则返回default
+d.update(d2)                    #集合合并
+d.pop(key), del d[key]          #删除
+len(d)
+d.copy()                        #创建副本,字典可以原处修改
+
+使用须知:
+序列运算无效,无法分片和用index索引
+对新索引赋值会添加项
+键不一定总是字符串
+字典用于稀疏数据结构,要避免missing-key错误
+常使用字典做'记录',有些python模块提供了外表类似且实际工作和字典一样的接口,如anydbm,shelve,cgi
+    import anydbm
+    file = anydbm.opoen('filename','c')
+    file['key']='testdata'
+    print(file['key'])
+
+Python2中字典可以直接比较
+    d1={'a':1,'b':2}, d2={'a':1,'b':3}, d1 < d2 #True
+Python2中字典无法直接比较,需提取后排序比较:
+    d1={'a':1,'b':2}, d2={'a':1,'b':3}, sorted(d1.items()) < sorted(d2.items()) #True

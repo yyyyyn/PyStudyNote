@@ -1,0 +1,5 @@
+t1=(1,)
+t2=tuple('23')
+print(t1+t2)
+print(t2.index('2'))
+print(t2.count('2'))

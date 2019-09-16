@@ -1,0 +1,12 @@
+# Button 功能触发事件
+Button类构造函数：def __init__(self, master=None, **kw)
+
+Button属性：
+text:名称
+command:指定事件处理函数
+relief：设置 Button 的外观效果
+bitmap/image:图片(位图数据)
+compound:指定文本与图像位置关系
+focus_set：设置当前组件得到焦点
+
+

@@ -1,0 +1,190 @@
+章节25,26,27,28
+###################### OOP-宏伟蓝图
+class:创建类对象，之后由类对象创建n个类实例对象
+1.为何使用类
+    1>继承:class A(B,C):pass
+    2>组合:一个完整的对象可以由多个对象组成，它们每个都可以写成类
+    3>多重实例：类是对象，类产生实例对象，每个实例对象都有独立命名空间，同时都能读写类对象属性
+    4>通过继承进行定制
+    5>运算符重载
+2.概览OOP
+    1>属性继承搜索
+        假设继承的结构是按定义的先后顺序从上往下，按继承时圆括号中顺序从左往右的树形，查找其中某个类的属性时
+        是以该类为起点从下往上到最顶层，再从左往右地搜索，找到第一个为止，没找到就报错(爬树,逻辑类似迭代查找)
+            class A1: pass
+            class B1(A1): pass   class B2: pass
+            class C1(B1, B2): pass
+            obj1 = C1()  #ob1
+            obj1.f()     #查找顺序C1->B1->A1->B2
+    2>类和实例
+        类是实例工厂，其属性提供了行为(数据即函数),所有从类产生的实例都继承类的属性
+        实例代表程序中具体的数据元素，每个实例对象的数据都可能不同，有自己的命名空间
+    3>类方法调用
+        上述obj1.f()含义是：调用C1.f函数处理obj1,即：C1.f(obj1)
+    4>编写类树
+        每个class语句会生成一个新的类对象
+        每次类调用是会生成一个新的类实例对象
+        实例自动连接至创建了这些实例的类
+        类连接超类的方式是将超类列在类头部的括号中，其从左至右的顺序会决定树中的顺序：class C1(B1, B2): pass
+        类属性通常在class语句中通过赋值语句添加在类中，不是在def语句内
+        实例属性通常在类中，对传给函数(主要是__init__)的特殊参数(self)做赋值运算而添加在实例中
+    5>OOP是为了代码重用
+    6>OOP程序代码中最重要的两个概念：__init__和函数self参数
+
+###################### 类代码编写基础
+1.类产生多个实例
+    类是产生实例的工厂
+2.类对象提供默认行为：
+    class语句创建类对象并将其赋值给变量名
+    class语句内的赋值语句会创建类的属性
+    类属性提供对象的状态和行为
+3.类实例对象是具体的元素：
+    像函数那样调用类对象会创建新的类实例对象
+    每个实例对象都继承类的属性并获得自己的命名空间
+    在方法内对self属性做赋值运算会产生每个实例自己的属性(主要是__init__)
+4.类通过继承进行定制：
+    超类列在类开头的括号中
+    类从其超类中继承属性
+    实例会继承所有可读取的类的属性
+    每个object.attribute都会开启新的独立搜索
+    逻辑的修改是通过创建子类而不是修改超类
+5.类是模块内的属性
+    可以正常导入：from test2 import FirstClass
+6.类可以截获Python运算符->运算符重载
+    以双下划线命名的方法(__x__)，每种内置运算对应特定的方法
+    当实例出现内置运算(加减乘除等)时，这类方法会自动调用,如用+时会调用__add__
+    类可以覆盖多数内置类型运算,不仅包括表达式，也包括打印和对象建立等
+    运算符覆盖没有默认值，往往也不需要，但是若不手动实现直接使用会报错
+    运算符可以让类与python的对象模块集成
+    注:若非必要不建议使用，一般来说直接用函数实现更加简单明了
+    为什么使用运算符重载：
+        往往在实现本质为数学对象的时候才会用到许多运算符重载方法
+7.创建最简单python类：class c:pass
+    添加/修改类属性:c.name = 'class c'   # print(c.name)
+    创建继承类属性的类实例对象：x = c()   # print(x.name)
+    添加/修改类实例属性：x='obj c'        # print(c.name, x.name)
+    可用__dict__属性查看类和实例的命名空间:print(c.__dict__, x.__dict__.keys())
+    用实例的__class__属性查看实例所属的类：x.__class__, 实例的类名称用x.__class__.__name__
+    用类的__bases__属性查看类与其超类的继承关系：c.__bases__
+    用类的__name__属性查看类的名称：c.__name__
+    类实例对象可用完全独立地在任意类对象的外部被调用：
+        def upper_name(self):
+            return self.name.upper()
+        upper_name(x)
+        c.method = upper_name   #添加类属性
+        x.method()
+8.类与字典的关系：类属性结构和字典类似
+    rec = {}; rec['name'] = 'mel'; rec['name']
+    class c: pass   c.name = 'mel'; c.name
+
+###################### 创建实例
+1.编写构造函数:def __init__(self):...
+2.添加行为方法:def mothName(self):...
+3.运算符重载：
+    打印(print)对象是显示对象的__str__方法返回的内容：def __str__(self):...
+4.通过子类定制行为：扩展方法-子类在重定义父类方法的时候可以尽量调用父类函数来实现以减小维护难度
+    class Persion:
+        def __init__(self. pay):
+            self.pay = pay
+        def giveRaise(self, percent):
+            self.pay = int(self.pay * (1 + percent))
+    class Manager(Persion):
+        def giveRaise(self, percent, bonus=.10):
+            Persion.giveRaise(self, percent + bonus)    #好的方式，调用父类方法
+    class Manger(Perison):
+        def giveRaise(self, percent, bonus=.10):
+            self.pay = int(self.pay * (1 + percent + bonus))    #不好的方式，会增加维护难度
+    Bob, Sue = Persion(1000), Mnager(10000)
+    Bob.giveRaise(.10), Sue.giveRaise(.10)  #多态
+    OOP:大思路
+        尽管可以从头开始写Manager，但有很多是与Persion重复的
+        尽管可以直接原处修改Persion，但会使Persion原有功能被改变
+        尽管可以完全拷贝Perison代码重命名为Manager并修改,但是会引入代码冗余，后期维护工作倍增
+5.定制构造函数
+    class Persion:
+        def __init__(self. pay):
+            self.pay = pay
+    class Manager(Persion):
+        def __init__(self, pay):
+            Perison.__init__(self, pay)
+6.使用内省工具__class__,__dict__,__name__,__bases__等
+    #一种通用显示工具，在子类中同样适用
+    class AttrDisplay:
+        def gather_attrs(self):
+            attrs = []
+            d = self.__dict__
+            for k in sorted(self.__dict__):
+                attrs.append('%s=%s'%(k, getattr(self, k)))
+            return ', '.join(attrs)
+        def __str__(self):
+            return '[%s: %s]' % (self.__class__.__name__, self.gather_attrs())
+7.把独享存储到数据库中pickle,shelve,dbm(anydbm)
+    未来方向：
+        GUI：可通过自带的tkinter或PyQt,WxPython等外部工具编写GUI软件工具扩展对象数据库的易用性
+        Web站点：比CUI更易用，可用自带的CGI或Django,flask等外部工具实现
+        Web服务：更直接的方式，从Web获取数据通过SOAP或XML-RPC等Web服务接口调用Python自身或第三方工具API
+        数据库：适用于数据更多安全需求更高的场景,可用自带的SQLite或mysql,oracle等外部数据库
+        ORM：保留数据的OOP特性，实现关系表的行和类实例直接的映射，SQLObject和SQLAlchemy可用实现
+
+###################### 类编写细节
+2.调用超类的构造函数Super.__init__
+3.类接口技术：扩展只是一种与超类接口的方式
+4.抽象超类
+
+1.class语句
+    类中的变量赋值会产生数据属性，所有类对象实例共享
+2.方法
+    调用超类的构造函数:超类.__init__(self,...)
+    其它方法调用的可能性：
+        静态方法：类中第一个参数预期不是类实例的方法
+            class A:
+                def show_info(myinfo):
+                    print('my info is ',myinfo)
+            A.show_info('abc')
+3.继承
+    1>支持变量名继承，obj.attr表达式会搜索命名空间，顺序：实例 ->类 ->超类
+    2>属性树的构造
+        实例属性是由对方法内self属性进行赋值运算而生成的
+        类属性是通过class语句内的赋值语句而生成的
+        超类是连接通过class与首航的括号内列出的类而生成的
+    3>继承方法的专有化
+        扩展：子类可完全取代继承的属性，提供超类可找到的属性，用已覆盖的方法回掉超类的方法以扩展
+    4>类接口技术
+        由于每次类属性的搜索是从头开始的独立搜索，超类方法中可预先使用子类中计划补充的属性再在子类中使用--抽象超类
+            class A:
+                def show_a(self):
+                    self.show_b()
+            class B(A):
+                def show_b(self):
+                    print('abc')
+            B().show_a()
+        抽象超类可由@装饰器实现,在类方法前加修饰器,效果和上述相同，但带有该修饰器的类不能创建实例，除非子类中重写被修饰方法
+            from abc import ABCMeta, abstractclassmethod
+            class Super(metaclass=ABCMeta):
+                def delegate(self):
+                    self.action()
+                @abstractclassmethod
+                def action(self):
+                    pass
+            class Sub(Super):
+                def action(self):
+                    print('sub action')
+            Sub().delegate()
+4.命名空间：完整的内容
+    无点号运算的变量名和作用域对应
+    点号的属性名使用的是对象的命名空间
+    有些作用域会对对象的命名空间进行初始化(模块和类)
+    赋值将变量名分类：不同地方的赋值产生不同类型的变量名
+    命名空间字典：__dict__
+    命名空间链接：__class__和__bases__,参考例子test8.py遍历类的所有超类
+    回顾文档字符串：docstr
+5.类与模块的关系
+    模块：
+        是数据/逻辑包
+        通过编写python或C扩展来创建
+        通过导入来使用
+    类
+        实现新的对象
+        由class语句创建
+        通过调用来使用
+        总是位于一个模块中

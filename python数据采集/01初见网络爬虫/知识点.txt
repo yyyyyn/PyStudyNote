@@ -1,0 +1,14 @@
+连接网络获取html文件:
+
+from urllit.request import urlopen
+html=urlopen("http://xx.com")
+
+注意该连接可能会发生找不到服务器或无法连接或反馈为空的情况。
+该html对象是一个http.client.HTTPResponse类型，可以read()为二进制，
+也可以用BeautifulSoup转化为结构化的数据：
+
+from bf4 import BeautifulSoup
+data=BeautifulSoup(html,"html.parser")  #"html.parser"表示一种解析方式
+
+解析后生产的data相当于一个xml文件，可以用标签来提取数据，也可以用findAll/find方法来获取
+

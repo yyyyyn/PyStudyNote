@@ -1,0 +1,19 @@
+可迭代对象iterable:可以通过内置iter(iterable)方法调用对象__iter__函数生成一个包含__next__方法的迭代器对象，包括：
+字符串，列表，元祖，字典,集合,range,map,zip,filter等
+
+迭代器iterator：可以直接使用内置next(iterator)方法调用对象__next__方法进行迭代,最后一次迭代会报错，包括：
+一个打开的文件
+生成器函数(yeild)及生成器表达式(括号包含的列表解析),它们都是单迭代器对象
+iter(iterable)
+
+python迭代环境:
+for, 列表解析, map, in, sorted, sum, any, all, list, join
+
+注意：
+1.迭代器同时也是可迭代对象,通过iter()再次转换后无变化
+2.zip,map,filter不支持相同结果上的多个活跃迭代器,range支持
+3.字典迭代的是键
+4.for循环流程:可迭代对象传给iter()产生迭代器,再通过next()方法一次取出一个数据处理
+5.列表解析: lines = [line.rstrip() for line in open('a.txt') if line[0] == 'p']
+
+扩展生成器函数协议：send和next

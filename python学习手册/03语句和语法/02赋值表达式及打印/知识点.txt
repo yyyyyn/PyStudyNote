@@ -1,0 +1,39 @@
+赋值：
+基本形式              spam='spam'
+元祖赋值运算          a,b=1,2
+列表赋值运算          [a,b]=[1,2]
+扩展序列解包          a,*b='spam' #python3.0以上版本,一次最多一个*
+多目标赋值            a=b=1
+增强赋值语句+=:       a=1;a+=2
+
+增强赋值语句: +=, %=, -=, |=, *=, ^=, /=, >>=, %=, <<=, //=
+    往往比原完整表达式更快
+    对序列而言+=是原处修改，而+是合并操作，另起炉灶。
+变量命名规则：(下划线/字母)+(下划线/字母/数字)  #区分大小写，不用保留字
+PEP8命名规范:
+    包和模块名应该简短，全部用小写字母, 多字母之间可以使用单下划线连接
+    类名遵循驼峰命名: class MyClass(object): pass
+    全局变量名: 尽量只在模块内部使用, 对可能使用语句from moduleName import variableName而被导入的模块，
+                应采用__all__机制来防止全局变量被别的模块导入, 或者在全局变量名开头加一个前置下划线: _name='name'
+    常量全部使用大写字母的凹驼峰规则来表示, 通常在模块顶格定义: MAX_OVERFLOW = ''
+    函数名该为全部小写的凹驼峰规则: user_name='zj'; def vcenter_connection(): pass
+    方法名和实例变量:
+        采用全部小写的凹驼峰规则
+        非公开方法和实例变量开头使用前置下划线
+        有时候可能会为了避免与子类命名冲突，采用两个前置下划线
+    注: 永远不要使用字母‘l’（小写的L），‘O’（大写的O），或者‘I’（大写的I）作为单字符变量名,易混淆
+
+查询关键字: import keyword; keyword.kwlist(); keyword.iskeyword('this')
+
+表达式：
+
+打印：print([obj,...][,sep=''][,end='\n'][,file=sys.stdout])
+    obj:内容
+    sep:间隔，默认空格
+    end:结尾，默认换行
+    file:内容打印位置，默认是标准输出流
+python2与python3的print的差异:
+    print x, y  <==> print(x, y)
+    print x, y,  <==> print(x, y, end='')
+    print >> afile, x, y  <==> print(x, y, file=afile)
+使Python2支持Python3的print功能: from __future__ import print_function

@@ -1,0 +1,45 @@
+1.包导入基础
+    1>import dir1.dir2.mod 或 from dir1.dir2.mod import x    #dir1在sys.path中
+    2>包和搜索路径设置
+        路径只能以点号间隔，不能用C:\mycode\dir1之类平台相关的路径语法，可以把C:\mycode加到.pth文件中在用:import dir1
+    3>__init__.py文件
+        包导入语句的路径中每个目录都必须有__init__.py文件否则导入失败，如：
+            dir0\dir1\dir2\mod.py   #文件嵌套结构:dir0[dir1[__init__.py, dir2[__init__.py, mod.py]]]
+            import dir1.dir2.mod
+            dir0是容器，不需要__init__.py，有也会忽略，其不会列在import中，在sys.path中(是主目录或其它)
+            dir1和dir2中都必须有一个__init__.py文件
+        包的初始化:__init__.py文件可以是空，也可以有程序代码，在首次导入包目录时执行
+        模块命名空间的初始化:包导入模型中，脚本内的目录路径在导入后变成嵌套对象路径
+        from*语句的行为：可以在__imit__.py中使用__all__来限定from*语句导入对象清单
+2.包导入实例
+    reload(dir1.dir2)会重载两个目录中的__init__.py文件，不会重载mod.py
+    包对应的from语句和import语句:
+        import dir1.dir2.mod,之后每次调用也要用dir1.dir2.mod.xx,不方便，可用别名as或：from dir1.dir2 import mod
+3.为什么要使用包导入
+    1>可作为组织工具更具信息性，简化sys.path搜索路径不用额外去设置.pth等，不同包中可以有同名模块解决模糊性，实现跨目录导入
+    2>三个系统的传说
+        对于/system1/mod.py和/system2/mod.py,无法在其它程序中明确地导入其中一个，从sys.path中配置路径会简单地从左往右查找
+        不要在单独的目录把文件安装成单个的文件列表，而是将其打包，在共同根目录下安装成子目录：
+            root[system1[mod.py, __init__.py], system2[mod.py, __init__.py]]
+4.包相对导入(from . import xxx)
+    1>python3.0在包导入中的变化
+        绝对导入：修改了包内模块导入搜索路径语义以默认地跳过包自己的目录
+        相对导入：扩展了from语句以允许显示地要求导入只搜索包的目录
+    2>相对导入基础
+        用from和点号表示，导入的是包内模块(不在sys.path中)，若有同名外部模块会发生覆盖
+        若不带点,在python2.6中模块搜索路径查找是先绝对再相对，Python3中默认只有绝对(只在sys.pth中查找)
+            此时可以在2.6中用 from __future__ import absolute_import禁用相对查找变成和python3类似
+        若带点则是相对查找，import absolute_import不生效
+            from . import mod   #相对方式导入相同包路径模块
+            from .mod import xx #相对方式导入相同包路径模块属性
+            from .. import mod  #相对方式导入上层包路径模块
+            注:一个点是当前目录，两个是上层目录，三个是上上层目录依次类推，但都要是在包目录
+        注:不要在包中模块代码中用import xx来导入同路径模块
+    3>为什么使用相对查找
+        当脚本在同名文件出现在模块搜索路径许多地方时可以解决模糊性
+        相对导入可以避免硬编码，对于包的维护是友好的
+        在较大较深的包中使from语句更简洁
+    4>相对导入的作用域
+        相对导入适用于只在包内导入
+        相对导入只用于from语句
+        术语含糊不清

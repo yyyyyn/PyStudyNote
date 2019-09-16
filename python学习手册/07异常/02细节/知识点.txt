@@ -1,0 +1,35 @@
+1.try/except/else/finally:运行顺序依次往下，
+try:<statements>                #程序监控代码
+except <name1>:<statements>     #若抛出异常name1时运行
+except name2,value:<statements> #捕获异常name2和其额外数据时运行
+except (name3,name4):<statements>#捕获任何抛出的异常时运行
+except (name3,name4),value:<statements> #捕获任何抛出的异常及其数据，运行代码
+...                              #类似上面，个数不限
+except:<statements>              #若出现不是上面的异常时运行
+else:<statements>                #若没有异常时运行
+finally:<statements>             #不管如何都会运行
+注：若except/else中有return语句，其它顺序不变，执行完fanilly后再执行return
+
+2>try中科院嵌套合并try/except语句
+
+3>raise:
+raise IndexError
+raise IndexError()
+上诉两种写法效果是一样的，第一种会隐式创建实例并抛出
+
+4>as: except MyErr as e:print(e)
+
+5>with/as:环境管理器
+with expression [as variable]:
+    with-block
+1.计算表达式expression,所得到的结果成为环境管理器，它必须有__enter__和__exit__方法
+2.__enter__方法被调用，如果有as则赋值给as中的变量否则直接丢弃
+3.执行代码
+4.若代码异常或代码结束执行__exit__
+5.可以多个嵌套:
+with A() as a,B() as b:
+    ...statements...
+
+with A() as a:
+    with B() as b:
+         ...statements...

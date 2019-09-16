@@ -1,0 +1,69 @@
+字符串常量和表达式
+s=''                    #空字符串
+s="spam's"              #双引号和单引号相同
+s='s\np\ta\x00m'        #转义序列
+s="""..."""             #三引号字符串块
+s=r'\temp\spam'         #反转义字符
+s=b'spam'               #python3中的字节字符串
+s=u'spam'               #python2中的Unicode字符串
+s1+s2,s*3               #合并,重复
+s[i],s[i:j],len(s)      #索引,分片,求长度
+'ab%s'%'c', 'ab{0}'.format('c') #字符串格式化表达式
+s.find('a')             #字符串函数-查找
+s.rstrip()              #字符串函数-移除空格及换行符
+s.replace('a','A')      #字符串函数-替换字符
+s.split(',')            #字符串函数-拆分字符
+','.join('abc')         #字符串函数-插入分隔符
+for x in 'abc': print(x)
+[s * 2 from s in 'abc']
+map(ord, 'abc')
+dir(str), help(str)     #查看内建字符串类型
+
+字符串定义：
+单引号:'abc','baf"adsf'
+双引号:"abc","asdf'asf"
+三引号:'''asdfadf'''
+转移字符:'\nasdf\t'
+r反转义字符:r'd:\aadf'
+Byte字符串:b'abc'
+注意：在表达式中会合并相邻的字符串常量(中间什么都没有) s='abc'"def"    #abcdef
+
+操作：
+1>字符串可以+拼接，也可以*表示重复
+2>扩展分片：s[i:j:k]  #在s[i:j]的基础上每k个中选头一个
+    s[i:j]相当于s[i:j:1], s[::-1]会颠倒顺序
+    vim echo.py
+        import sys
+        print(sys.args)
+    python echo.py -a -b -c #打印出:['echo.py','-a','-b','-c']
+
+python2有很多函数方法都依赖模块string
+
+字符串格式化表达式：
+'ab%s'%'c'
+'ab{0}'.format('c')
+
+不可变类型：数字，字符串，元祖，不可变集合
+可变类型：列表，字典，可变集合
+
+ord('a'):把字符根据ascii转换为数字，chr(97):数字转为字符
+早期字符串是以ascii形式编码为二进制存在内存中的，因此编码的字符串内容只能是英文数字等。
+ascii不能编码汉字，GB2313应运而生，这造成了不同文字有不同的编码，如Euc-kr,Shift_JIS等
+不同编码方式会造成混乱，统一的编码方式诞生-->unicode
+运行时的字符串对象是以unicode编码形式的二进制数据存在内存中的，这样不会造成冲突
+但是unicode也存在缺点，就是编码后占用的内存较多，因此不适合用于写入硬盘保存，utf-8诞生，在保存时更节省空间
+
+将字符串按照指定形式编码为二进制：
+'abc'.encode('ascii',errors='ignore')   #errors是可选项，表示编译不了的就舍去不要了
+b=b'abc'                                #默认ascii编码，中文不行
+b=bytes('abc中文','utf-8')              #bytes()内置函数编码，要指定编码方式
+b=bytearray('你好，中国!','utf-8')       #bytearray是bytes的一个变体，是可变序列
+解码，将二进制解码为字符串，注意解码方式：
+s=b.decode('utf-8')
+
+注意：
+1.当要从文件中读取二进制数据时，应当与存入的时候的编码方式一样，这样不会造成冲突
+2.ascii相当于是utf-8的子集，以前用ascii编码的数据也可以用utf-8编辑
+3.bytearray和bytes对象是int的序列(前者可变，后者不可变)，str是字符的序列
+4.文件的二进制输入可以用bytes/bytearray,输出总是bytes,文件内容应该和其写入方式(正常还是二进制)匹配
+5.pickle模块在dump时会将数据转换为二进制模式，再写入文件，故此文件读写都应是二进制模式

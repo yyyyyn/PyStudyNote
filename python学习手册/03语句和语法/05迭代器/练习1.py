@@ -1,0 +1,11 @@
+print('zip,map,filter不支持相同结果上的多个活跃迭代器')
+z=zip((1,2,3),('a','b','c'))
+i1,i2=iter(z),iter(z)
+print(next(i1))
+print(next(i2))
+
+print('range支持相同结果上的多个活跃迭代器')
+r=range(5)
+i1,i2=iter(r),iter(r)
+print(next(i1))
+print(next(i2))

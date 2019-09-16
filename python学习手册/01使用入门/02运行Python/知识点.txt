@@ -1,0 +1,20 @@
+1.Python解释器
+    1>Python代码是在Python解释器上运行的，解释器是一种让其他程序运行起来的程序
+    2>解释器是代码和机器之间的软件逻辑层
+    3>Python包括一个解释器和支持的库
+    4>代码运行后先将其编译成与平台无关的字节码形式(.pyc文件)，再在Python虚拟机(pvm)上运行。
+        字节码非二进制代码,而是特定于Python的一种变现形式
+    5>编译和执行在同一过程，运行时可通过eval和exec内置模块动态调用，用户和修改部分python代码而不编译整个程序代码
+
+2.python实现的替代者
+    1>CPython:标准的实现
+    2>Jython:为了与java编程语言集成
+    3>IronPython:让python程序可以与windows平台上的.NET框架及与之对应的Linux的上开源的Mono编写成的应用相集成
+
+3.执行优化工具
+    1>Psyco实时编译器:一个PVM增强工具,将字节码转位二进制机器码以提高运行速度
+    2>Shedskin c++转换器:将python代码转为c++代码再用C++编译器运行
+
+4.冻结二进制文件
+    1>冻结二进制文件能将程序的字节码,PVM(解释器)及任何程序所需的python支持文件捆绑在一起形成一个单独的文件包,一个可执行文件(如windows中的xx.exe)
+    2>三种生成方式:py2exe,pyInstaller,freeze,详情参考官网:https://www.python.org

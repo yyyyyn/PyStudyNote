@@ -1,0 +1,29 @@
+列表：有序，偏移读取，可变，异构及任意嵌套的可变序列，对象引用数组
+常用列表常量及操作：
+l = []
+l = [1,2,3]
+l=[1,'a',['b',4]]
+l = list('spam')
+l = list(range(-4,4))
+l[i], l[i][j], len(l)
+l1 + l2
+l * 3
+for x in l: print(x)
+'a' in l
+l.append(4), l.extend([6,7]), l.insert(I,X), l.Count(), l.sort(), l.reverse()
+del l[k], del l[i:j]            # del删除的是变量,不是对象
+l.pop(), l.remove(2), l[i:j]=[]
+l[i] = 'a', l[i:j]=['a','b','c']
+l = [x**2 for x in range(5)]
+list(map(ord,'spam'))
+
+生成一个列表：
+直接定义：l=[] l=[1,2] l=[1,[2,3]]
+list+可迭代对象:l=list('sapm') l=list(range(4))
+操作：
+添加：l.append(4);l.extend([5,6]);l.insert(I,X)
+删除：l.pop();l.remove(4);del l[i];del l[i:j]
+反转：l.reverse()
+排序：l.sort()
+索引计数：l.index(x);l.count(x)
+支持原处修改：l[0]=x
